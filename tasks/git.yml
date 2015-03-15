@@ -1,0 +1,12 @@
+---
+
+- name: Add git config files
+  copy:
+    src: git/{{ item }}
+    dest: "{{ user_home }}/.{{ item }}"
+    mode: 0644
+    owner: "{{ user_name }}"
+  with_items:
+    - gitconfig
+    - gitconfig.user
+    - gitignore

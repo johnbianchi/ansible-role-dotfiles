@@ -8,3 +8,12 @@
     accept_hostkey: yes
   notify:
     - install vim plugins
+
+- name: Create .vimrc and .gvimrc symlinks
+  file:
+    src: "{{ user_home }}/{{ item }}"
+    dest: "{{ user_home }}/.{{ item }}"
+    force: yes
+  with_items:
+    - vimrc
+    - gvimrc

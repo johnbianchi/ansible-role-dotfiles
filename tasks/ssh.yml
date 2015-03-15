@@ -5,5 +5,4 @@
     src: ssh/rc
     dest: "{{ user_home }}/.ssh/rc"
     owner: "{{ user_name }}"
-    group: "{{ group_name }}"
-    mode: 0664
+    mode: 0644

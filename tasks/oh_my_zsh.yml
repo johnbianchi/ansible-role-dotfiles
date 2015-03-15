@@ -1,20 +1,5 @@
 ---
 
-# Install zsh #
-
-- name: Install zsh on Debian
-  apt:
-    name: zsh
-  sudo: yes
-  when: ansible_os_family == "Debian"
-
-- name: Install zsh on Mac
-  homebrew:
-    name: zsh
-  sudo: no
-  when: ansible_os_family == "Darwin"
-
-
 # Install oh-my-zsh
 
 - name: Clone oh-my-zsh
@@ -28,14 +13,14 @@
 
 - name: Copy template to ~/.zshrc
   get_url:
-    src: file://{{ user_home }}/.oh-my-zsh/templates/zshrc.zsh-template
+    url: file://{{ user_home }}/.oh-my-zsh/templates/zshrc.zsh-template
     dest: "{{ user_home }}/.zshrc"
-    force: "{{ 'yes' when oh_my_zsh_repo.changed else 'no' }}"
+    force: "{{ 'yes' if oh_my_zsh_repo.changed else 'no' }}"
 
 - name: Enable zsh plugins
   lineinfile:
     regexp: '^plugins'
-    line: plugins=(git pyenv python rbenv ruby vi-mode)
+    line: plugins=(git pyenv python rbenv ruby)
     dest: "{{ user_home }}/.oh-my-zsh/custom/theme.zsh"
 
 - name: Set zsh prompt, Disable audto update
@@ -45,11 +30,3 @@
   with_items:
     - 'ZSH_THEME="steeef"'
     - 'DISABLE_AUTO_UPDATE="true"'
-
-# Default shell #
-
-- name: Set Zsh as default shell
-  shell: chsh -s `which zsh` {{ user_name }}
-  sudo: yes
-  register: chsh
-  changed_when: '"chsh: no changes made" not in chsh.stderr'
