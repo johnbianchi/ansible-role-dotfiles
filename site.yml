@@ -1,5 +1,0 @@
-- name: Configure dotfiles for the specified user
-  hosts: all
-  tasks:
-    - tasks/main.yml
-  sudo: no
