@@ -1,5 +1,5 @@
-- name: Configure development environment on this host
+- name: Configure dotfiles for the specified user
   hosts: all
-  roles:
-    - dotfiles
+  tasks:
+    - tasks/main.yml
   sudo: no

@@ -1,34 +1,55 @@
 ---
-# https://github.com/robbyrussell/oh-my-zsh#the-manual-way
 
-- name: Install zsh
+# Install zsh #
+
+- name: Install zsh on Debian
   apt:
     name: zsh
   sudo: yes
   when: ansible_os_family == "Debian"
 
+- name: Install zsh on Mac
+  homebrew:
+    name: zsh
+  sudo: no
+  when: ansible_os_family == "Darwin"
+
+
+# Install oh-my-zsh
+
 - name: Clone oh-my-zsh
   git:
     repo: "git://github.com/robbyrussell/oh-my-zsh.git"
-    dest: "{{ user_home }}/.oh-my-zsh"
+    dest: ~/.oh-my-zsh"
     version: master
+  register: oh_my_zsh_repo
 
-- name: ~/.zshrc
-  file:
-    path: "{{ user_home }}/.zshrc"
-    src: "{{ user_home }}/.oh-my-zsh/templates/zshrc.zsh-template"
-    state: link
-    force: yes
+# .zshrc #
 
-- name: Set Zsh as default shell (OS X)
+- name: Copy template to ~/.zshrc
+  get_url:
+    src: file://{{ user_home }}/.oh-my-zsh/templates/zshrc.zsh-template
+    dest: "{{ user_home }}/.zshrc"
+    force: "{{ 'yes' when oh_my_zsh_repo.changed else 'no' }}"
+
+- name: Enable zsh plugins
+  lineinfile:
+    regexp: '^plugins'
+    line: plugins=(git pyenv python rbenv ruby vi-mode)
+    dest: "{{ user_home }}/.oh-my-zsh/custom/theme.zsh"
+
+- name: Set zsh prompt, Disable audto update
+  lineinfile:
+    line: "{{ item }}"
+    dest: "{{ user_home }}/.zshrc"
+  with_items:
+    - 'ZSH_THEME="steeef"'
+    - 'DISABLE_AUTO_UPDATE="true"'
+
+# Default shell #
+
+- name: Set Zsh as default shell
   shell: chsh -s `which zsh` {{ user_name }}
   sudo: yes
   register: chsh
   changed_when: '"chsh: no changes made" not in chsh.stderr'
-  when: ansible_os_family == "Darwin"
-
-- name: Zsh theme
-  lineinfile:
-    line: 'ZSH_THEME="steeef"'
-    dest: "{{ user_home }}/.oh-my-zsh/custom/theme.zsh"
-    create: yes
