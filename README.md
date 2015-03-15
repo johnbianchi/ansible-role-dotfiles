@@ -1,18 +1,52 @@
-# dansible
-dotfiles deployed with Ansible
+dotfiles role
+=============
 
-This is a set of Ansible playbooks that configures my home directory with my dotfiles:
+vim, ssh, zsh, screen dotfiles
 
-- vim
-- screen
-- zsh and oh-my-zsh
-- ssh
+Requirements
+------------
 
-# Dependencies
+Vim, ruby, rake, zsh
 
-Install Ansible, clone this repository onto the machine to be configured, and log in.
+Role Variables
+--------------
+
+`user`
+
+Dependencies
+------------
+
+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+
+Example Playbook
+----------------
+
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+
+    - hosts: servers
+      roles:
+         - { role: lukeorland.dotfiles, user: lukeorland }
 
 
-# Run
+Add it to your Ansible playbooks repository's `requirements.yml`:
 
-`cd` to the top directory of this repository. Run `./run.sh`. Type your user's password.
+```yaml
+# requirements.yml
+
+- src: https://github.com/lukeorland/ansible-role-dotfiles
+  version: master
+  name: lukeorland.dotfiles
+```
+
+Install by running: `sudo ansible-galaxy install -r requirements.yml`
+
+
+License
+-------
+
+BSD
+
+Author Information
+------------------
+
+https://github.com/lukeorland
