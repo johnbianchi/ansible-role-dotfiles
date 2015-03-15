@@ -13,6 +13,7 @@
   file:
     src: "{{ user_home }}/{{ item }}"
     dest: "{{ user_home }}/.{{ item }}"
+    state: link
     force: yes
   with_items:
     - vimrc
