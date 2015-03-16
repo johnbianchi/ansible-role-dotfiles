@@ -6,7 +6,17 @@ vim, ssh, zsh, screen dotfiles
 Requirements
 ------------
 
-Vim, ruby, rake, zsh
+- Vim
+    - Compiled with Python2 support
+- [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)'s dependencies
+    - boost
+    - cmake
+    - Python libs
+    - `libclang`
+- ruby, rake
+    - for Running an installation script
+- zsh
+
 
 Role Variables
 --------------
