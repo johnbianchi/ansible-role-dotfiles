@@ -9,6 +9,8 @@
   notify:
     - install vim plugins
 
+- meta: flush_handlers
+
 - name: Create .vimrc and .gvimrc symlinks
   file:
     src: "{{ user_home }}/{{ item }}"
